@@ -1,5 +1,7 @@
 import Link from "next/link"
-import { ArrowRight, Clock } from "lucide-react"
+import { Sparkles } from "lucide-react"
+import { PostCard } from "@/components/molecules/post-card"
+import { FloatingOrbs } from "@/components/atoms/floating-orbs"
 
 const posts = [
   {
@@ -73,76 +75,51 @@ const categories = [
 
 export default function BlogPage() {
   return (
-    <div className="py-12 space-y-10">
-      {/* Header */}
-      <section className="container mx-auto px-4">
-        <div className="max-w-2xl">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
-            Todos los artículos
-          </h1>
-          <p className="text-muted-foreground">
-            Explora {posts.length} artículos sobre desarrollo web, QA automation, ciberseguridad y más.
-          </p>
-        </div>
-      </section>
+    <div className="relative noise-overlay">
+      <div className="dot-grid absolute inset-0" />
+      <FloatingOrbs />
 
-      {/* Filters */}
-      <section className="container mx-auto px-4">
-        <div className="flex flex-wrap items-center gap-2">
-          {categories.map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/categoria/${cat.slug}`}
-              className="rounded-lg border border-white/5 bg-card px-4 py-2 text-sm text-muted-foreground transition-colors hover:border-primary/20 hover:text-cyan-400"
-            >
-              {cat.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <div className="relative py-12 space-y-10">
+        {/* Header */}
+        <section className="container mx-auto px-4">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-cyan-400 mb-4">
+              <Sparkles className="h-3 w-3" />
+              Todos los artículos
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
+              Blog
+            </h1>
+            <p className="text-muted-foreground">
+              Explora {posts.length} artículos sobre desarrollo web, QA automation, ciberseguridad y más.
+            </p>
+          </div>
+        </section>
 
-      {/* Posts Grid */}
-      <section className="container mx-auto px-4">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} className="group block">
-              <article className="rounded-xl border border-white/5 bg-card overflow-hidden transition-all duration-300 hover:border-primary/20 hover:shadow-[0_0_40px_hsl(var(--primary)/0.06)] h-full flex flex-col">
-                <div className="aspect-[16/9] overflow-hidden bg-muted">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="p-5 space-y-3 flex flex-col flex-1">
-                  <div className="flex items-center justify-between">
-                    <span className="inline-flex text-xs font-medium text-cyan-400">
-                      {post.category}
-                    </span>
-                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <Clock className="h-3 w-3" />
-                      {post.readTime}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-semibold leading-snug group-hover:text-cyan-400 transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 flex-1">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between pt-2">
-                    <span className="text-xs text-muted-foreground">{post.date}</span>
-                    <span className="text-xs text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                      Leer <ArrowRight className="h-3 w-3" />
-                    </span>
-                  </div>
-                </div>
-              </article>
-            </Link>
-          ))}
-        </div>
-      </section>
+        {/* Filters */}
+        <section className="container mx-auto px-4">
+          <div className="flex flex-wrap items-center gap-2">
+            {categories.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={`/categoria/${cat.slug}`}
+                className="rounded-lg border border-white/5 bg-card/50 backdrop-blur-sm px-4 py-2 text-sm text-muted-foreground transition-all duration-300 hover:border-primary/20 hover:text-cyan-400 hover:bg-card"
+              >
+                {cat.name}
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Posts Grid */}
+        <section className="container mx-auto px-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {posts.map((post) => (
+              <PostCard key={post.slug} {...post} />
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   )
 }
