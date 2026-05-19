@@ -20,8 +20,8 @@ export function useTheme() {
 
 function getInitialTheme(): Theme {
   if (typeof window !== "undefined") {
-    const stored = localStorage.getItem("theme") as Theme | null
-    if (stored) return stored
+    const stored = localStorage.getItem("farchodev_theme") as Theme | null
+    if (stored === "light" || stored === "dark") return stored
   }
   return "dark"
 }
@@ -36,7 +36,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } else {
       root.classList.remove("theme-day")
     }
-    localStorage.setItem("theme", theme)
+    localStorage.setItem("farchodev_theme", theme)
   }, [theme])
 
   const toggle = () => setTheme((t) => (t === "dark" ? "light" : "dark"))
